@@ -6,7 +6,7 @@ entity strobe_generator is
     Port (
         clk      : in std_logic;       -- Reloj de entrada (50 MHz)
         reset    : in std_logic;       -- Reset
-        enable_1ms : out std_logic     -- Strobe de décima de segundo
+        enable_100ms : out std_logic     -- Strobe de décima de segundo
     );
 end strobe_generator;
 
@@ -21,14 +21,14 @@ begin
     begin
         if reset = '1' then
             counter <= 0;
-            enable_1ms <= '0';
+            enable_100ms <= '0';
         elsif rising_edge(clk) then
             if counter = COUNT_MAX then
                 counter <= 0;
-                enable_1ms <= '1'; -- Genera el pulso
+                enable_100ms <= '1'; -- Genera el pulso
             else
                 counter <= counter + 1;
-                enable_1ms <= '0';
+                enable_100ms <= '0';
             end if;
         end if;
     end process;
