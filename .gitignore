@@ -1,0 +1,13 @@
+# Ignorar archivos y carpetas generados por Vivado
+*.runs/
+*.sim/
+*.hw/
+*.log
+*.jou
+*.str
+*.tcl~
+*.wdb
+*.bit
+*.bin
+*.dcp
+*.rpt
