@@ -4,7 +4,7 @@ use IEEE.NUMERIC_STD.ALL;
 
 entity strobe_generator is
     Port (
-        clk      : in std_logic;       -- Reloj de entrada (50 MHz)
+        clk      : in std_logic;       -- Reloj de entrada (100 MHz)
         reset    : in std_logic;       -- Reset
         enable_100ms : out std_logic     -- Strobe de décima de segundo
     );
@@ -32,8 +32,6 @@ begin
             end if;
         end if;
     end process;
-    
-    --Rama J Gasco
 
 end Behavioral;
 
