@@ -67,9 +67,12 @@ begin
         -- Inicialización
         reset <= '1';
         wait for 50 ns; -- Mantén el reset activo por un breve periodo
+        reset <= '0';-- Espera unos ciclos para observar el comportamiento del contador
+        wait for 120 ms;
+        reset <= '1';
+        wait for 50 ns; -- Mantén el reset activo por un breve periodo
         reset <= '0';
 
-        -- Espera unos ciclos para observar el comportamiento del contador
         wait for 1 sec;
 
         -- Finaliza la simulación
