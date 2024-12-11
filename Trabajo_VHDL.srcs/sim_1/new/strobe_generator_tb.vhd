@@ -20,8 +20,8 @@ architecture behavior of tb_strobe_generator is
     signal reset     : std_logic := '0';
     signal enable_100ms: std_logic;
 
-    -- Clock period constant (for a 50 MHz clock)
-    constant clk_period : time := 20 ns;  -- 50 MHz clock
+    -- Clock period constant (for a 100 MHz clock)
+    constant clk_period : time := 10 ns;  -- 50 MHz clock
 
 begin
     -- Instantiate the strobe_generator
@@ -50,7 +50,7 @@ begin
         reset <= '0';  -- Release reset
 
         -- Run simulation for 1 second
-        wait for 1000000000 ns; -- Simula 1 segundo (50 MHz reloj -> 50,000,000 ciclos por segundo)
+        wait for 1000000000 ns; 
 
         -- End of simulation
         assert false report "Simulation completed" severity note;
