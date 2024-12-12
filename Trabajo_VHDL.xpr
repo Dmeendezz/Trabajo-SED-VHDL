@@ -4,7 +4,7 @@
 <!-- Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.                   -->
 <!-- Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.   -->
 
-<Project Product="Vivado" Version="7" Minor="67" Path="C:/Users/gasco/Desktop/SISTEMAS ELECTRÓNICOS DIGITALES/TRABAJO/Trabajo-SED-VHDL/Trabajo_VHDL.xpr">
+<Project Product="Vivado" Version="7" Minor="67" Path="C:/Users/David/Desktop/Universidad/4 Carrera/SED/Trabajos/VHDL/Trabajo_VHDL/Trabajo_VHDL_REPO/Trabajo-SED-VHDL/Trabajo_VHDL.xpr">
   <DefaultLaunch Dir="$PRUNDIR"/>
   <Configuration>
     <Option Name="Id" Val="a10279260c50484dbabc31db5c287861"/>
@@ -105,6 +105,12 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
+      <File Path="$PSRCDIR/sources_1/new/SWITCH.vhd">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
       <Config>
         <Option Name="DesignMode" Val="RTL"/>
         <Option Name="TopModule" Val="strobe_generator"/>
@@ -139,6 +145,14 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
+      <File Path="$PSRCDIR/sim_1/imports/new/tb_SWITCH.vhd">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PSRCDIR/sim_1/new/tb_SWITCH.vhd"/>
+          <Attr Name="ImportTime" Val="1733996986"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
       <Config>
         <Option Name="DesignMode" Val="RTL"/>
         <Option Name="TopModule" Val="CONTADORTIEMPO_TB"/>
@@ -150,7 +164,7 @@
         <Option Name="PamDutBypassFile" Val="xil_dut_bypass"/>
         <Option Name="PamSignalDriverFile" Val="xil_bypass_driver"/>
         <Option Name="PamPseudoTop" Val="pseudo_tb"/>
-        <Option Name="SrcSet" Val="sources_1"/>
+        <Option Name="SrcSet" Val=""/>
         <Option Name="xsim.simulate.runtime" Val="520ms"/>
         <Option Name="xsim.simulate.log_all_signals" Val="true"/>
         <Option Name="xsim.simulate.saif_all_signals" Val="true"/>
