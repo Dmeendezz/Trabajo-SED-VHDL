@@ -37,7 +37,7 @@ architecture Behavioral of CONTADORTIEMPO_TB is
 begin
 
     -- Instancia del módulo CONTADORTIEMPO
-    DUT: CONTADORTIEMPO
+    uut: CONTADORTIEMPO
         port map (
             clk       => clk,
             reset     => reset,
