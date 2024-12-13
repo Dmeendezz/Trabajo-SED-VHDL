@@ -2,10 +2,10 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
-entity tb_strobe_generator is
-end entity tb_strobe_generator;
+entity strobe_generator_tb is
+end entity strobe_generator_tb;
 
-architecture behavior of tb_strobe_generator is
+architecture behavior of strobe_generator_tb is
     -- Component declaration
     component strobe_generator
         Port (
