@@ -10,15 +10,15 @@ architecture behavior of SWITCH_tb is
     -- Señales internas para conectar con el diseño
     signal switch_tb : STD_LOGIC := '0';  -- Interruptor
     signal rst : STD_LOGIC := '0';        -- Señal de reset
-    signal enable : STD_LOGIC;            -- Señal de enable
     signal led : STD_LOGIC;               -- Señal del LED
 
     -- Componente que vamos a probar
     component SWITCH is
-        Port ( switch : in STD_LOGIC;
-               rst : in STD_LOGIC;
-               enable : out STD_LOGIC;
-               led : out STD_LOGIC );
+        Port ( 
+            switch : in STD_LOGIC;
+            rst : in STD_LOGIC;
+            led : out STD_LOGIC
+        );
     end component;
 
 begin
@@ -26,10 +26,9 @@ begin
     -- Instanciación del componente
     uut: SWITCH
         port map (
-            switch => switch_tb,  -- Cambiado a switch_tb
-            rst => rst,
-            enable => enable,
-            led => led
+            switch => switch_tb,  -- Interruptor conectado
+            rst => rst,           -- Señal de reset conectada
+            led => led            -- LED conectado
         );
 
     -- Proceso para generar los estímulos de prueba
