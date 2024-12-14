@@ -4,7 +4,7 @@
 <!-- Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.                   -->
 <!-- Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.   -->
 
-<Project Product="Vivado" Version="7" Minor="67" Path="C:/Users/David/Desktop/Universidad/4 Carrera/SED/Trabajos/VHDL/Trabajo_VHDL/Trabajo_VHDL_REPO/Trabajo-SED-VHDL/Trabajo_VHDL.xpr">
+<Project Product="Vivado" Version="7" Minor="67" Path="C:/Users/rmorales/Desktop/trabajosed/Trabajo-SED-VHDL/Trabajo_VHDL.xpr">
   <DefaultLaunch Dir="$PRUNDIR"/>
   <Configuration>
     <Option Name="Id" Val="a10279260c50484dbabc31db5c287861"/>
@@ -62,7 +62,7 @@
     <Option Name="IPStaticSourceDir" Val="$PIPUSERFILESDIR/ipstatic"/>
     <Option Name="EnableBDX" Val="FALSE"/>
     <Option Name="DSABoardId" Val="nexys4_ddr"/>
-    <Option Name="WTXSimLaunchSim" Val="88"/>
+    <Option Name="WTXSimLaunchSim" Val="92"/>
     <Option Name="WTModelSimLaunchSim" Val="0"/>
     <Option Name="WTQuestaLaunchSim" Val="0"/>
     <Option Name="WTIesLaunchSim" Val="0"/>
@@ -165,7 +165,7 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-       <File Path="$PSRCDIR/sources_1/new/parking_counter.vhd">
+      <File Path="$PSRCDIR/sources_1/new/parking_counter.vhd">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -178,6 +178,12 @@
         </FileInfo>
       </File>
       <File Path="$PSRCDIR/sources_1/new/SelectorDisplay.vhd">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/new/debouncer.vhd">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -252,7 +258,7 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-       <File Path="$PSRCDIR/sim_1/new/contador_plazas_libres_tb.vhd">
+      <File Path="$PSRCDIR/sim_1/new/contador_plazas_libres_tb.vhd">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -300,9 +306,15 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
+      <File Path="$PSRCDIR/sim_1/new/debouncer_tb.vhd">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
       <Config>
         <Option Name="DesignMode" Val="RTL"/>
-        <Option Name="TopModule" Val="BCD_to_7Segment_tb"/>
+        <Option Name="TopModule" Val="debouncer_tb"/>
         <Option Name="TopLib" Val="xil_defaultlib"/>
         <Option Name="TransportPathDelay" Val="0"/>
         <Option Name="TransportIntDelay" Val="0"/>
@@ -312,7 +324,7 @@
         <Option Name="PamSignalDriverFile" Val="xil_bypass_driver"/>
         <Option Name="PamPseudoTop" Val="pseudo_tb"/>
         <Option Name="SrcSet" Val="sources_1"/>
-        <Option Name="xsim.simulate.runtime" Val="100ns"/>
+        <Option Name="xsim.simulate.runtime" Val="1300ns"/>
         <Option Name="xsim.simulate.log_all_signals" Val="true"/>
         <Option Name="xsim.simulate.saif_all_signals" Val="true"/>
       </Config>
