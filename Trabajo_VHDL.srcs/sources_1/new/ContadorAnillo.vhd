@@ -6,25 +6,29 @@ ENTITY ContadorAnillo IS
     PORT (
         clk   : IN  std_logic;            -- Señal de reloj
         reset : IN  std_logic;            -- Señal de reset
-        sel   : OUT std_logic_vector(3 DOWNTO 0) -- Salida del contador anillo
+        sel   : OUT std_logic_vector(2 DOWNTO 0) -- Salida del contador anillo
     );
 END ENTITY ContadorAnillo;
 
 ARCHITECTURE Behavioral OF ContadorAnillo IS
-    SIGNAL sel_reg : std_logic_vector(3 DOWNTO 0) := "XXXX"; -- Estado inicial
+    SIGNAL sel_reg : std_logic_vector(2 DOWNTO 0) := "000"; -- Estado inicial
 BEGIN
 
     PROCESS(clk, reset)
     BEGIN
         IF reset = '1' THEN
-            sel_reg <= "XXXX"; -- Reinicia al estado "XXXX" cuando se pulsa reset
+            sel_reg <= "000"; -- Reinicia al estado "XXXX" cuando se pulsa reset
         ELSIF rising_edge(clk) THEN
             CASE sel_reg IS
-                WHEN "1110" => sel_reg <= "1101"; -- Activa el segundo display
-                WHEN "1101" => sel_reg <= "1011"; -- Activa el tercer display
-                WHEN "1011" => sel_reg <= "0111"; -- Activa el cuarto display
-                WHEN "0111" => sel_reg <= "1110"; -- Vuelve al primer display
-                WHEN OTHERS => sel_reg <= "1110"; -- Valor por defecto
+                WHEN "000" => sel_reg <= "001"; -- Activa el display 1
+                WHEN "001" => sel_reg <= "010"; -- Activa el display 2
+                WHEN "010" => sel_reg <= "011"; -- Activa el display 3
+                WHEN "011" => sel_reg <= "100"; -- Activa el display 4
+                WHEN "100" => sel_reg <= "101"; -- Activa el display 5 
+                WHEN "101" => sel_reg <= "110"; -- Activa el display 6
+                WHEN "110" => sel_reg <= "111"; -- Activa el display 7
+                WHEN "111" => sel_reg <= "000"; -- Activa el display 0
+                WHEN OTHERS => sel_reg <= "000"; -- Activa el display 0
             END CASE;
         END IF;
     END PROCESS;

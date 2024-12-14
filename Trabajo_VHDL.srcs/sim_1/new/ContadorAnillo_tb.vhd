@@ -13,14 +13,14 @@ ARCHITECTURE Behavioral OF ContadorAnillo_tb IS
         PORT (
             clk   : IN  std_logic;              -- Señal de reloj
             reset : IN  std_logic;              -- Señal de reset
-            sel   : OUT std_logic_vector(3 DOWNTO 0) -- Salida del contador anillo
+            sel   : OUT std_logic_vector(2 DOWNTO 0) -- Salida del contador anillo
         );
     END COMPONENT;
 
     -- Signals for the UUT
     SIGNAL clk   : std_logic := '0';           -- Señal de reloj
     SIGNAL reset : std_logic := '0';           -- Señal de reset
-    SIGNAL sel   : std_logic_vector(3 DOWNTO 0); -- Salida del contador anillo
+    SIGNAL sel   : std_logic_vector(2 DOWNTO 0); -- Salida del contador anillo
 
 BEGIN
 
