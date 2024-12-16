@@ -2,11 +2,11 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
-entity TB_CONTADORTIEMPO_3 is
+entity CONTADORTIEMPO_3_tb is
 
-end TB_CONTADORTIEMPO_3;
+end CONTADORTIEMPO_3_tb;
 
-architecture Behavioral of TB_CONTADORTIEMPO_3 is
+architecture Behavioral of CONTADORTIEMPO_3_tb is
    
     component CONTADORTIEMPO_3
         Port (
@@ -17,13 +17,11 @@ architecture Behavioral of TB_CONTADORTIEMPO_3 is
         );
     end component;
 
-    
     signal clk       : STD_LOGIC := '0';
     signal reset     : STD_LOGIC := '0';
     signal enable_3    : STD_LOGIC := '1';
     signal count_out_3 : INTEGER range 0 to 35999;
 
-    
     constant CLK_PERIOD : time := 10 ns; 
 
 begin
@@ -36,7 +34,6 @@ begin
             count_out_3 => count_out_3
         );
 
-   
     clk_process : process
     begin
         while true loop
@@ -62,14 +59,12 @@ begin
         wait for 10 ms;
         enable_3 <= '1';
 
-        
         wait for 120 ms;
         --SE DESACTIVA ENABLE Y VULEVE A EMPEZAR EL CONTADOR
         enable_3 <= '0';
         wait for 10 ms;
         enable_3 <= '1';
 
-        
         wait for 50 ms;
         assert false report "Simulation finished successfully" severity note;
         wait;
