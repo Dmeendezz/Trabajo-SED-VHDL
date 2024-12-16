@@ -2,38 +2,38 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
-entity TB_CONTADORTIEMPO is
+entity TB_CONTADORTIEMPO_4 is
 
-end TB_CONTADORTIEMPO;
+end TB_CONTADORTIEMPO_4;
 
-architecture Behavioral of TB_CONTADORTIEMPO is
+architecture Behavioral of TB_CONTADORTIEMPO_4 is
    
-    component CONTADORTIEMPO
+    component CONTADORTIEMPO_4
         Port (
             clk       : in STD_LOGIC;
             reset     : in STD_LOGIC;
-            enable    : in STD_LOGIC;
-            count_out : out INTEGER range 0 to 35999
+            enable_4    : in STD_LOGIC;
+            count_out_4 : out INTEGER range 0 to 35999
         );
     end component;
 
     
     signal clk       : STD_LOGIC := '0';
     signal reset     : STD_LOGIC := '0';
-    signal enable    : STD_LOGIC := '1';
-    signal count_out : INTEGER range 0 to 35999;
+    signal enable_4    : STD_LOGIC := '1';
+    signal count_out_4 : INTEGER range 0 to 35999;
 
     
     constant CLK_PERIOD : time := 10 ns; 
 
 begin
     
-    uut: CONTADORTIEMPO
+    uut: CONTADORTIEMPO_4
         Port map (
             clk       => clk,
             reset     => reset,
-            enable    => enable,
-            count_out => count_out
+            enable_4    => enable_4,
+            count_out_4 => count_out_4
         );
 
    
@@ -58,16 +58,16 @@ begin
         reset <= '0';
 
         --AL ACTIVAR RESET SE DESACTIVA ENABLE HASTA DETECTAR FLANCO POSITIVO
-        enable <= '0';
+        enable_4 <= '0';
         wait for 10 ms;
-        enable <= '1';
+        enable_4 <= '1';
 
         
         wait for 120 ms;
         --SE DESACTIVA ENABLE Y VULEVE A EMPEZAR EL CONTADOR
-        enable <= '0';
+        enable_4 <= '0';
         wait for 10 ms;
-        enable <= '1';
+        enable_4 <= '1';
 
         
         wait for 50 ms;
@@ -76,8 +76,3 @@ begin
     end process;
 
 end Behavioral;
-
-
-
-
-
