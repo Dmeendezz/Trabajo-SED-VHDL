@@ -14,7 +14,17 @@ entity TOP is
     led3:       out std_logic;
     led4:       out std_logic;
     segmento:   out std_logic_vector(6 DOWNTO 0);
-    display_sel :   out  std_logic_vector(7 DOWNTO 0)
+    display_sel :   out  std_logic_vector(7 DOWNTO 0);
+    salida_contador1: out integer;
+    salida_contador2: out integer;
+    salida_contador3: out integer;
+    salida_contador4: out integer;
+    salida_unidades: out std_logic_vector(3 DOWNTO 0);
+    salida_decenas:out std_logic_vector(3 DOWNTO 0);
+    salida_centenas:out std_logic_vector(3 DOWNTO 0);
+    salida_millares:out std_logic_vector(3 DOWNTO 0);
+    salida_seleccionada: out integer;
+    salida_fsm: out std_logic_vector(1 DOWNTO 0)
     );
 end TOP;
 
@@ -178,6 +188,7 @@ begin
         enable   =>  enable_cont_tiempo1,       
         count_out => cuenta_tiempo1
         );
+        salida_contador1 <= cuenta_tiempo1;
     
     --CONTADOR TIEMPO 2
     contador2_inst: CONTADORTIEMPO
@@ -187,6 +198,7 @@ begin
         enable   =>  enable_cont_tiempo2,       
         count_out => cuenta_tiempo2
         );
+        salida_contador2 <= cuenta_tiempo2;
         
      --CONTADOR TIEMPO 3
     contador3_inst: CONTADORTIEMPO
@@ -196,6 +208,7 @@ begin
         enable   =>  enable_cont_tiempo3,       
         count_out => cuenta_tiempo3
         ); 
+      salida_contador3 <= cuenta_tiempo3;
       
       --CONTADOR TIEMPO 4
     contador4_inst: CONTADORTIEMPO
@@ -205,6 +218,7 @@ begin
         enable   =>  enable_cont_tiempo4,       
         count_out => cuenta_tiempo4
         ); 
+      salida_contador4 <= cuenta_tiempo4;
         
       --MAQUINA DE ESTADOS  
      parking_fsm_inst:parking_fsm
@@ -216,6 +230,7 @@ begin
         plaza_4 => enable_cont_tiempo4, -- 1 si ocupada, 0 si libre
         salida => select_mux_entero -- Salida binaria indicando la plaza liberada
         ); 
+        salida_fsm <= select_mux_entero;
         
       --MULTIPLEXOR ENTEROS 4a1 
     mux_enteros_inst: multiplexor_entero
@@ -227,6 +242,7 @@ begin
         plaza4 => cuenta_tiempo4, -- Salida del contador de la plaza 4
         salida => cuenta_seleccionada -- Salida seleccionada
         );
+        salida_seleccionada <=cuenta_seleccionada;
 
       -- ENTERO A BCD
     entero_a_bcd_inst: int_to_bcd
@@ -237,6 +253,10 @@ begin
         centenas  => bcd_precio1, -- Contiguo a millares
         millares  => bcd_precio0 --Irá en display de Izquierda del todo
         );
+      salida_unidades <= bcd_precio3;
+      salida_decenas  <= bcd_precio2;
+      salida_centenas <= bcd_precio1;
+      salida_millares <= bcd_precio0;
       
       --CONTADOR PLAZAS LIBRES
     contador_plazas_libres_inst: contador_plazas_libres

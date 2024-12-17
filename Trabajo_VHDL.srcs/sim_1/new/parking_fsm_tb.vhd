@@ -45,44 +45,44 @@ begin
     begin
         -- Test 1: Reset the system
         reset <= '1';
-        wait for 20 ns;
+        wait for 20 ms;
         reset <= '0';
-        wait for 20 ns;
+        wait for 20 ms;
 
         -- Test 2: Flanco negativo en plaza_1
         plaza_1 <= '0';
-        wait for 20 ns;
+        wait for 20 ms;
         plaza_2 <= '0';      
-        wait for 20 ns;
+        wait for 20 ms;
         
         -- Test 3: Flanco negativo en plaza_2
         plaza_1 <= '1';
-        wait for 20 ns;
+        wait for 20 ms;
         plaza_2 <= '1';
-        wait for 20 ns;
+        wait for 20 ms;
 
         -- Test 4: Flanco negativo en plaza_3
         plaza_3 <= '0';
-        wait for 20 ns;
+        wait for 20 ms;
         plaza_3 <= '1';
-        wait for 20 ns;
+        wait for 20 ms;
 
         -- Test 5: Flanco negativo en plaza_4
         plaza_4 <= '0';
-        wait for 20 ns;
+        wait for 20 ms;
         plaza_4 <= '1';
-        wait for 20 ns;
+        wait for 20 ms;
 
         -- Test 6: Reset nuevamente
         reset <= '1';
-        wait for 20 ns;
+        wait for 20 ms;
         reset <= '0';
-        wait for 20 ns;
+        wait for 20 ms;
         
         reset <='1';
-        wait for 20 ns;
+        wait for 20 ms;
         reset <= '0';
-        wait for 20 ns;
+        wait for 20 ms;
 
         -- Stop simulation
         wait;

@@ -11,9 +11,11 @@ entity strobe_generator is
 end strobe_generator;
 
 architecture Behavioral of strobe_generator is
-    constant COUNT_MAX : natural := 10000000 - 1; -- Ciclos para 0.1 s. 
+    constant COUNT_MAX : natural := 10 - 1; -- Ciclos para 0.1 s. 
                                                  -- Hay que mirar cual es la frecuencia del clock para hacer N (ciclos) = f x 0,1s. 
                                                  -- N está calculado para una f de 100 MHz -> N = 10000000
+                                                 
+                                                 --Si quiero un periodo de 0.01 s, f = 10Hz, N = 10
     signal counter : natural range 0 to COUNT_MAX := 0;
 begin
 
