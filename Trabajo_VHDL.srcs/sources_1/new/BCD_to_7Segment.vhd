@@ -4,7 +4,7 @@ USE ieee.std_logic_1164.ALL;
 ENTITY BCD_to_7Segment IS
     PORT (
         bcd    : IN  std_logic_vector(3 DOWNTO 0); -- Entrada BCD de 4 bits
-        seg    : OUT std_logic_vector(6 DOWNTO 0)  -- Salida para los 7 segmentos
+        seg    : OUT std_logic_vector(0 to 6)  -- Salida para los 7 segmentos
     );
 END ENTITY BCD_to_7Segment;
 

@@ -42,7 +42,7 @@ BEGIN
         );
 
     -- MUX para seleccionar las entradas BCD
-    PROCESS(bcd0, bcd1, bcd2, bcd3, sel_cnt)
+    PROCESS(sel_cnt)
     BEGIN
         CASE sel_cnt IS
             WHEN "000" => bcd_out <= bcd0;   -- Seleccionar BCD0

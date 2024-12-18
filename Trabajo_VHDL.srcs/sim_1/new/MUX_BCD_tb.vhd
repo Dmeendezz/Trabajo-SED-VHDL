@@ -26,7 +26,7 @@ ARCHITECTURE behavior OF MUX_BCD_tb IS
     SIGNAL clk                          : std_logic := '0';
     SIGNAL reset                        : std_logic := '0';
     SIGNAL bcd_out                      : std_logic_vector(3 DOWNTO 0);
-
+    SIGNAL sel_cnt : std_logic_vector(2 DOWNTO 0);  -- Señal de selección del contador anillo
 
 BEGIN
 
@@ -49,28 +49,60 @@ BEGIN
         WAIT FOR 5 ns; -- Media onda
         clk <= NOT clk;
     END PROCESS;
+ -- Generación del contador anillo (sel_cnt)
+    sel_cnt_process : PROCESS
+    BEGIN
+        -- Primero, inicializamos el contador
+        sel_cnt <= "000";
+        WAIT FOR 20 ns;
+        
+        -- Ahora cambiamos los valores de sel_cnt simulando el contador anillo
+        sel_cnt <= "001";  -- Cambia a "001"
+        WAIT FOR 20 ns;
+        
+        sel_cnt <= "010";  -- Cambia a "010"
+        WAIT FOR 20 ns;
+        
+        sel_cnt <= "011";  -- Cambia a "011"
+        WAIT FOR 20 ns;
+        
+        sel_cnt <= "100";  -- Cambia a "100"
+        WAIT FOR 20 ns;
+        
+        sel_cnt <= "101";  -- Cambia a "101"
+        WAIT FOR 20 ns;
+        
+        sel_cnt <= "110";  -- Cambia a "110"
+        WAIT FOR 20 ns;
+        
+        sel_cnt <= "111";  -- Cambia a "111"
+        WAIT FOR 20 ns;
 
-    -- Generador de estímulos
+        -- Fin de la simulación
+        WAIT;
+    END PROCESS;
+
+    -- Inicialización de las señales de entrada
     stimulus_process : PROCESS
     BEGIN
-        -- Inicialización de entradas
-        bcd0 <= "0000";
-        bcd1 <= "0001";
-        bcd2 <= "0010";
-        bcd3 <= "0011";
-        bcd7 <= "0111";
-
-        -- Reset inicial
-        reset <= '1';
-        WAIT FOR 10 ns;
+        -- Inicialización de las señales
+        bcd0 <= "0000";  -- Valor de BCD0
+        bcd1 <= "0001";  -- Valor de BCD1
+        bcd2 <= "0010";  -- Valor de BCD2
+        bcd3 <= "0011";  -- Valor de BCD3
+        bcd7 <= "0111";  -- Valor de BCD7
         reset <= '0';
+
+        -- Prueba de reset
+        WAIT FOR 20 ns;
+        reset <= '1';  -- Activa el reset
+        WAIT FOR 20 ns;
+        reset <= '0';  -- Desactiva el reset
         
-        wait for 100 ns;
-        reset <= '1';
-        WAIT FOR 10 ns;
-        reset <= '0';
+        -- Esperamos que el contador se actualice para verificar las salidas
+        WAIT FOR 20 ns;
 
-        -- Finalizar la simulación
+        -- Fin de la simulación
         WAIT;
     END PROCESS;
 

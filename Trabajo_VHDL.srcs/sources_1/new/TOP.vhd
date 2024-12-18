@@ -11,7 +11,7 @@ entity TOP is
     switch4:    in std_logic;
     led:        out std_logic_vector(0 to 3);
 
-    segmento:   out std_logic_vector(6 DOWNTO 0);
+    segmento:   out std_logic_vector(0 TO 6);
     display_sel :   out  std_logic_vector(7 DOWNTO 0)
     --salida_contador1: out integer;
     --salida_contador2: out integer;

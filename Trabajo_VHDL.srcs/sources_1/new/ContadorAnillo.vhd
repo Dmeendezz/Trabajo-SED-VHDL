@@ -12,7 +12,7 @@ END ENTITY ContadorAnillo;
 
 ARCHITECTURE Behavioral OF ContadorAnillo IS
     SIGNAL sel_reg : std_logic_vector(2 DOWNTO 0) := "000"; -- Estado inicial
-    SIGNAL counter : integer RANGE 0 TO 10000000 := 0;       -- Contador para 100 ms, a frecuencia de reloj 100Mhz
+    SIGNAL counter : integer RANGE 0 TO 100000 := 0;       -- Contador para 10 ms, a frecuencia de reloj 100Mhz
 BEGIN
 
     PROCESS(clk, reset)
@@ -21,7 +21,7 @@ BEGIN
             sel_reg <= "000";   -- Reinicia al estado inicial
             counter <= 0;       -- Reinicia el contador de ciclos
         ELSIF rising_edge(clk) THEN
-            IF counter = 9999999 THEN  -- Cuenta hasta 10,000,000 ciclos (100 ms)
+            IF counter = 99999 THEN  -- Cuenta hasta 100,000 ciclos (1 ms)
                 -- Cambia el estado del contador anillo
                 CASE sel_reg IS
                     WHEN "000" => sel_reg <= "001"; -- Activa el display 1
