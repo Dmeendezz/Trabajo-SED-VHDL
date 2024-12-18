@@ -7,11 +7,12 @@ entity strobe_generator is
         clk      : in std_logic;       -- Reloj de entrada (100 MHz)
         reset    : in std_logic;       -- Reset
         enable_100ms : out std_logic     -- Strobe de décima de segundo
+        
     );
 end strobe_generator;
 
 architecture Behavioral of strobe_generator is
-    constant COUNT_MAX : natural := 10 - 1; -- Ciclos para 0.1 s. 
+    constant COUNT_MAX : natural := 10000000 - 1; -- Ciclos para 0.1 s. 
                                                  -- Hay que mirar cual es la frecuencia del clock para hacer N (ciclos) = f x 0,1s. 
                                                  -- N está calculado para una f de 100 MHz -> N = 10000000
                                                  

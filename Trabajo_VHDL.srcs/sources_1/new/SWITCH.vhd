@@ -5,23 +5,24 @@ entity SWITCH is
     Port ( 
         switch : in STD_LOGIC;       -- Interruptor (switch)
         rst    : in STD_LOGIC;       -- Señal de reset
-        led    : out STD_LOGIC       -- Señal del LED
+        clk    : in STD_LOGIC;       -- Señal de reloj
+        led    : out STD_LOGIC      -- Señal del LED
     );
 end SWITCH;
 
 architecture Behavioral of SWITCH is
     signal switch_prev : STD_LOGIC := '0'; -- Guarda el valor anterior del switch
     signal led_reg     : STD_LOGIC := '0'; -- Registro para la salida LED
-begin
 
-    -- Proceso combinacional para detectar flancos
-    process(switch, rst)
+begin
+    -- Proceso sincronizado para detectar flancos
+    process(clk, rst)
     begin
         if rst = '1' then
-            -- Reset asíncrono
+            -- Reset síncrono
             led_reg <= '0';
             switch_prev <= '0';
-        else
+        elsif rising_edge(clk) then
             -- Detectar flanco ascendente
             if (switch = '1' and switch_prev = '0') then
                 led_reg <= '1';
@@ -39,4 +40,5 @@ begin
     led <= led_reg;
 
 end Behavioral;
+
 

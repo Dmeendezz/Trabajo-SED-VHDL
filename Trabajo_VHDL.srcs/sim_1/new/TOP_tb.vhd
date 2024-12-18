@@ -22,17 +22,17 @@ architecture Behavioral of TOP_tb is
             led3        : out std_logic;
             led4        : out std_logic;
             segmento    : out std_logic_vector(6 downto 0);
-            display_sel : out std_logic_vector(7 downto 0);
-            salida_contador1: out integer;
-            salida_contador2: out integer;
-            salida_contador3: out integer;
-            salida_contador4: out integer;
-            salida_unidades: out std_logic_vector(3 DOWNTO 0);
-            salida_decenas:out std_logic_vector(3 DOWNTO 0);
-            salida_centenas:out std_logic_vector(3 DOWNTO 0);
-            salida_millares:out std_logic_vector(3 DOWNTO 0);
-            salida_seleccionada: out integer;
-            salida_fsm: out std_logic_vector(1 DOWNTO 0)
+            display_sel : out std_logic_vector(7 downto 0)
+            --salida_contador1: out integer;
+            --salida_contador2: out integer;
+            --salida_contador3: out integer;
+            --salida_contador4: out integer;
+            --salida_unidades: out std_logic_vector(3 DOWNTO 0);
+            --salida_decenas:out std_logic_vector(3 DOWNTO 0);
+            --salida_centenas:out std_logic_vector(3 DOWNTO 0);
+            --salida_millares:out std_logic_vector(3 DOWNTO 0);
+            --salida_seleccionada: out integer;
+            --salida_fsm: out std_logic_vector(1 DOWNTO 0)
         );
     end component;
 
@@ -49,16 +49,16 @@ architecture Behavioral of TOP_tb is
     signal led4        : std_logic;
     signal segmento    : std_logic_vector(6 downto 0);
     signal display_sel : std_logic_vector(7 downto 0);
-    signal salida_contador1: integer;
-    signal salida_contador2: integer;
-    signal salida_contador3: integer;
-    signal salida_contador4: integer;
-    signal salida_unidades: std_logic_vector(3 DOWNTO 0);
-    signal salida_decenas: std_logic_vector(3 DOWNTO 0);
-    signal salida_centenas: std_logic_vector(3 DOWNTO 0);
-    signal salida_millares: std_logic_vector(3 DOWNTO 0);
-    signal salida_seleccionada: integer;
-    signal salida_fsm: std_logic_vector(1 DOWNTO 0);
+    --signal salida_contador1: integer;
+    --signal salida_contador2: integer;
+    --signal salida_contador3: integer;
+    --signal salida_contador4: integer;
+    --signal salida_unidades: std_logic_vector(3 DOWNTO 0);
+    --signal salida_decenas: std_logic_vector(3 DOWNTO 0);
+    --signal salida_centenas: std_logic_vector(3 DOWNTO 0);
+    --signal salida_millares: std_logic_vector(3 DOWNTO 0);
+    --signal salida_seleccionada: integer;
+    --signal salida_fsm: std_logic_vector(1 DOWNTO 0);
 begin
 
     -- Instancia del DUT (Device Under Test)
@@ -75,17 +75,17 @@ begin
             led3        => led3,
             led4        => led4,
             segmento    => segmento,
-            display_sel => display_sel,
-            salida_contador1 => salida_contador1,
-            salida_contador2 => salida_contador2,
-            salida_contador3 => salida_contador3,
-            salida_contador4 => salida_contador4,
-            salida_unidades => salida_unidades,
-            salida_decenas => salida_decenas,
-            salida_centenas => salida_centenas,
-            salida_millares => salida_millares,
-            salida_seleccionada => salida_seleccionada,
-            salida_fsm => salida_fsm
+            display_sel => display_sel
+            --salida_contador1 => salida_contador1,
+            --salida_contador2 => salida_contador2,
+            --salida_contador3 => salida_contador3,
+            --salida_contador4 => salida_contador4,
+            --salida_unidades => salida_unidades,
+            --salida_decenas => salida_decenas,
+            --salida_centenas => salida_centenas,
+            --salida_millares => salida_millares,
+            --salida_seleccionada => salida_seleccionada,
+            --salida_fsm => salida_fsm
         );
 
     -- Generación de reloj con 10 ns de período (100 MHz) --> CAMBIAR EN STROBE la N
@@ -94,9 +94,9 @@ begin
     begin
         while true loop
             clk <= '0';
-            wait for 5 ms;
+            wait for 5 ns;
             clk <= '1';
-            wait for 5 ms;
+            wait for 5 ns;
         end loop;
     end process;
 

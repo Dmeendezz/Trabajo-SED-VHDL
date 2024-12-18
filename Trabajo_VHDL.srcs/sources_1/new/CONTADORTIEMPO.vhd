@@ -12,58 +12,59 @@ entity CONTADORTIEMPO is
 end CONTADORTIEMPO;
 
 architecture Behavioral of CONTADORTIEMPO is
-    
+
     signal enable_100ms : STD_LOGIC;         -- Pulso cada 100ms
     signal count        : INTEGER range 0 to 35999 := 0; -- Contador interno
     signal enable_prev  : STD_LOGIC := '0'; -- Estado previo de enable
+    signal counting     : STD_LOGIC := '0'; -- Señal que indica si se debe contar
 
-    -- Componente que genera la señal de 100ms
     component strobe_generator
         Port (
-            clk          : in STD_LOGIC;       
-            reset        : in STD_LOGIC;      
-            enable_100ms : out STD_LOGIC     
+            clk          : in std_logic;       -- Reloj de entrada (100 MHz)
+            reset        : in std_logic;       -- Reset
+            enable_100ms : out std_logic       -- Strobe de décima de segundo
         );
     end component;
 
 begin
 
-    -- Instancia del generador de 100ms
+    -- Instancia del generador de pulsos
     strobe_inst: strobe_generator
-        Port map (
-            clk          => clk,            
-            reset        => reset,          
-            enable_100ms => enable_100ms   
-        );
+    Port map (
+        clk          => clk,
+        reset        => reset,
+        enable_100ms => enable_100ms
+    );
 
     -- Proceso principal del contador
     process(clk, reset)
     begin
         if reset = '1' then
-            count <= 0;                -- Reset global
+            count <= 0;                -- Reiniciar el contador
+            counting <= '0';           -- Detener el conteo
             enable_prev <= '0';        -- Reiniciar el estado previo
         elsif rising_edge(clk) then
-            -- Detectar flancos de enable
-            if enable = '1' and enable_prev = '0' then  -- Flanco positivo
-                count <= 0;            -- Reiniciar contador
-            elsif enable = '0' and enable_prev = '1' then  -- Flanco negativo
-                -- Mantener la cuenta (no se hace nada)
-                null;
-            elsif enable = '1' then
-                -- Contar si enable está activo y llega el pulso de 100ms
+            -- Detectar flanco positivo de enable
+            if enable = '1' and enable_prev = '0' then
+                count <= 0;            -- Reiniciar el contador en flanco positivo
+                counting <= '1';       -- Habilitar el conteo
+            elsif enable = '1' and counting = '1' then
+                -- Contar si está habilitado y llega el pulso de 100ms
                 if enable_100ms = '1' then
                     if count < 35999 then
                         count <= count + 1;
                     end if;
                 end if;
+            elsif enable = '0' then
+                counting <= '0';       -- Mantener el valor pero detener el conteo
             end if;
 
-            -- Actualizar estado previo
+            -- Actualizar estado previo de enable
             enable_prev <= enable;
         end if;
     end process;
 
-    -- Asignar salida
+    -- Asignar la salida del contador
     count_out <= count;
 
 end Behavioral;

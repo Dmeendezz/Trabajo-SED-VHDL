@@ -9,22 +9,20 @@ entity TOP is
     switch2:    in std_logic;
     switch3:    in std_logic;
     switch4:    in std_logic;
-    led1:       out std_logic; 
-    led2:       out std_logic;
-    led3:       out std_logic;
-    led4:       out std_logic;
+    led:        out std_logic_vector(0 to 3);
+
     segmento:   out std_logic_vector(6 DOWNTO 0);
-    display_sel :   out  std_logic_vector(7 DOWNTO 0);
-    salida_contador1: out integer;
-    salida_contador2: out integer;
-    salida_contador3: out integer;
-    salida_contador4: out integer;
-    salida_unidades: out std_logic_vector(3 DOWNTO 0);
-    salida_decenas:out std_logic_vector(3 DOWNTO 0);
-    salida_centenas:out std_logic_vector(3 DOWNTO 0);
-    salida_millares:out std_logic_vector(3 DOWNTO 0);
-    salida_seleccionada: out integer;
-    salida_fsm: out std_logic_vector(1 DOWNTO 0)
+    display_sel :   out  std_logic_vector(7 DOWNTO 0)
+    --salida_contador1: out integer;
+    --salida_contador2: out integer;
+    --salida_contador3: out integer;
+    --salida_contador4: out integer;
+    --salida_unidades: out std_logic_vector(3 DOWNTO 0);
+    --salida_decenas:out std_logic_vector(3 DOWNTO 0);
+    --salida_centenas:out std_logic_vector(3 DOWNTO 0);
+    --salida_millares:out std_logic_vector(3 DOWNTO 0);
+    --salida_seleccionada: out integer;
+    --salida_fsm: out std_logic_vector(1 DOWNTO 0)
     );
 end TOP;
 
@@ -42,6 +40,7 @@ architecture Behavioral of TOP is
         Port(
         switch      : in STD_LOGIC;       -- Interruptor (switch)
         rst         : in STD_LOGIC;          -- Señal de reset
+        clk         : in STD_LOGIC;          -- Señal de reloj
         led         : out STD_LOGIC          -- Señal del LED
         );
     end component;
@@ -149,36 +148,39 @@ begin
         Port map(
         switch => switch1,          -- PLAZA 1
         rst => reset,               -- Señal de reset
-        led => enable_cont_tiempo1       
+        clk      => clk,            -- Señal de reloj
+        led =>  enable_cont_tiempo1  
         );
-        led1 <= enable_cont_tiempo1;
-        
+        led(0) <= enable_cont_tiempo1;
      --SWITCH2
     switch2_inst: SWITCH
         Port map(
         switch => switch2,           -- PLAZA 2
         rst => reset,                 -- Señal de reset
-        led => enable_cont_tiempo2       
+        clk      => clk,            -- Señal de reloj
+        led => enable_cont_tiempo2
         );
-        led2 <= enable_cont_tiempo2;
+        led(1) <= enable_cont_tiempo2;
         
      --SWITCH3
     switch3_inst: SWITCH
         Port map(
         switch => switch3,           -- PLAZA 3
         rst => reset,                 -- Señal de reset
-        led => enable_cont_tiempo3       
+        clk      => clk,            -- Señal de reloj
+        led => enable_cont_tiempo3      
         );
-        led3 <= enable_cont_tiempo3;   
+        led(2) <= enable_cont_tiempo3;   
         
      --SWITCH4
     switch4_inst: SWITCH
         Port map(
         switch => switch4,           -- PLAZA 4
         rst => reset,                 -- Señal de reset
-        led => enable_cont_tiempo4       
+        clk      => clk,            -- Señal de reloj
+        led => enable_cont_tiempo4     
         );
-        led4 <= enable_cont_tiempo4;    
+        led(3)<= enable_cont_tiempo4;    
     
     --CONTADOR TIEMPO 1
     contador1_inst: CONTADORTIEMPO
@@ -188,7 +190,7 @@ begin
         enable   =>  enable_cont_tiempo1,       
         count_out => cuenta_tiempo1
         );
-        salida_contador1 <= cuenta_tiempo1;
+        --salida_contador1 <= cuenta_tiempo1;
     
     --CONTADOR TIEMPO 2
     contador2_inst: CONTADORTIEMPO
@@ -198,7 +200,7 @@ begin
         enable   =>  enable_cont_tiempo2,       
         count_out => cuenta_tiempo2
         );
-        salida_contador2 <= cuenta_tiempo2;
+        --salida_contador2 <= cuenta_tiempo2;
         
      --CONTADOR TIEMPO 3
     contador3_inst: CONTADORTIEMPO
@@ -208,7 +210,7 @@ begin
         enable   =>  enable_cont_tiempo3,       
         count_out => cuenta_tiempo3
         ); 
-      salida_contador3 <= cuenta_tiempo3;
+      --salida_contador3 <= cuenta_tiempo3;
       
       --CONTADOR TIEMPO 4
     contador4_inst: CONTADORTIEMPO
@@ -218,7 +220,7 @@ begin
         enable   =>  enable_cont_tiempo4,       
         count_out => cuenta_tiempo4
         ); 
-      salida_contador4 <= cuenta_tiempo4;
+      --salida_contador4 <= cuenta_tiempo4;
         
       --MAQUINA DE ESTADOS  
      parking_fsm_inst:parking_fsm
@@ -230,7 +232,7 @@ begin
         plaza_4 => enable_cont_tiempo4, -- 1 si ocupada, 0 si libre
         salida => select_mux_entero -- Salida binaria indicando la plaza liberada
         ); 
-        salida_fsm <= select_mux_entero;
+        --salida_fsm <= select_mux_entero;
         
       --MULTIPLEXOR ENTEROS 4a1 
     mux_enteros_inst: multiplexor_entero
@@ -242,7 +244,7 @@ begin
         plaza4 => cuenta_tiempo4, -- Salida del contador de la plaza 4
         salida => cuenta_seleccionada -- Salida seleccionada
         );
-        salida_seleccionada <=cuenta_seleccionada;
+        --salida_seleccionada <=cuenta_seleccionada;
 
       -- ENTERO A BCD
     entero_a_bcd_inst: int_to_bcd
@@ -253,10 +255,10 @@ begin
         centenas  => bcd_precio1, -- Contiguo a millares
         millares  => bcd_precio0 --Irá en display de Izquierda del todo
         );
-      salida_unidades <= bcd_precio3;
-      salida_decenas  <= bcd_precio2;
-      salida_centenas <= bcd_precio1;
-      salida_millares <= bcd_precio0;
+      --salida_unidades <= bcd_precio3;
+      --salida_decenas  <= bcd_precio2;
+      --salida_centenas <= bcd_precio1;
+      --salida_millares <= bcd_precio0;
       
       --CONTADOR PLAZAS LIBRES
     contador_plazas_libres_inst: contador_plazas_libres
