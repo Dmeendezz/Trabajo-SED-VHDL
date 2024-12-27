@@ -5,7 +5,8 @@ entity SelectorDisplay is
 Port ( 
     clk     : IN std_logic;                     -- Reloj para el selector
     reset   : IN std_logic;                     -- Reset para el selector
-    display : OUT std_logic_vector(7 DOWNTO 0)  -- Selector display activo con un bit a nivel bajo
+    display : OUT std_logic_vector(7 DOWNTO 0);  -- Selector display activo con un bit a nivel bajo
+    DP: out std_logic
     );
 end SelectorDisplay;
 
@@ -49,9 +50,16 @@ begin
                 when "111" => display_i <= "11111110"; -- Seleccionado display 0
                 when others => display_i <= "11111111"; -- Apaga todos los displays (por seguridad)
             end case;
+            
+            if sel_cnt = "001" then
+            DP <= '0';
+            else
+            DP <= '1';
+            end if;
         end if;
     end process;
-
+    
+    
     -- Asignación de salida
     display <= display_i;
 

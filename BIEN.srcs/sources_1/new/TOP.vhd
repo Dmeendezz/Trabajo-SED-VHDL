@@ -9,9 +9,11 @@ entity TOP is
     switch2:    in std_logic;
     switch3:    in std_logic;
     switch4:    in std_logic;
+    PUSHBUTTON :    in std_logic;
     led:        out std_logic_vector(0 to 3);
-
+    led_contador_seleccionado: out std_logic_vector(0 to 3);
     segmento:   out std_logic_vector(0 TO 6);
+    DP : out std_logic;
     display_sel :   out  std_logic_vector(7 DOWNTO 0)
     --salida_contador1: out integer;
     --salida_contador2: out integer;
@@ -34,7 +36,11 @@ architecture Behavioral of TOP is
     signal bcd_precio0, bcd_precio1, bcd_precio2, bcd_precio3: std_logic_vector(3 downto 0); -- Salidas int_to_bcd, entradas (0-3) del MUX_BCD
     signal bcd_contador_plazas: std_logic_vector(3 downto 0); -- Salida contador plazas, entrada (7) del MUX_BCD
     signal bcd_seleccionado: std_logic_vector(3 downto 0); -- Salida MUX_BCD y entrada BCD_to_7Segment
+   signal syn_edg : std_logic;
+    signal edg_fsm : std_logic;
+   
     -------------------------- COMPONENTES ------------------------
+    
     --SWITCH
     component SWITCH
         Port(
@@ -58,14 +64,28 @@ architecture Behavioral of TOP is
     --MAQUINA DE ESTADOS
     component parking_fsm
         Port(
-        reset       : in STD_LOGIC;
-        plaza_1     : in STD_LOGIC; -- 1 si ocupada, 0 si libre
-        plaza_2     : in STD_LOGIC; -- 1 si ocupada, 0 si libre
-        plaza_3     : in STD_LOGIC; -- 1 si ocupada, 0 si libre
-        plaza_4     : in STD_LOGIC; -- 1 si ocupada, 0 si libre
-        salida      : out STD_LOGIC_VECTOR(1 downto 0) -- Salida binaria indicando la plaza liberada
+        reset : in STD_LOGIC;
+        PUSHBUTTON : in std_logic;
+        clk     : in STD_LOGIC;
+        salida  : out STD_LOGIC_VECTOR(1 downto 0) -- Salida binaria indicando la plaza liberada
         );
     end component;
+    
+    COMPONENT SYNCHRNZR -- Sincronizador
+        PORT (
+            CLK: IN std_logic;
+            ASYNC_IN: IN std_logic;
+            SYNC_OUT: OUT std_logic
+        );
+    END COMPONENT;
+
+    COMPONENT EDGEDCNTRL -- detector de flanco
+        PORT (
+            CLK: IN std_logic;
+            SYNC_IN: IN std_logic;
+            EDGE: OUT std_logic
+        );
+    END COMPONENT;
     
     
     --MUX ENTERO 4a1
@@ -135,7 +155,8 @@ architecture Behavioral of TOP is
         Port(
         clk     : IN std_logic;                     -- Reloj para el selector
         reset   : IN std_logic;                     -- Reset para el selector
-        display : OUT std_logic_vector(7 DOWNTO 0)  -- Selector display activo con un bit a nivel bajo
+        display : OUT std_logic_vector(7 DOWNTO 0);  -- Selector display activo con un bit a nivel bajo
+        DP: out std_logic
         );
     end component;
     
@@ -143,6 +164,7 @@ architecture Behavioral of TOP is
 begin
 
     -------------------------- INSTANCIAS ------------------------
+
     --SWITCH1
     switch1_inst: SWITCH
         Port map(
@@ -190,7 +212,6 @@ begin
         enable   =>  enable_cont_tiempo1,       
         count_out => cuenta_tiempo1
         );
-        --salida_contador1 <= cuenta_tiempo1;
     
     --CONTADOR TIEMPO 2
     contador2_inst: CONTADORTIEMPO
@@ -200,7 +221,6 @@ begin
         enable   =>  enable_cont_tiempo2,       
         count_out => cuenta_tiempo2
         );
-        --salida_contador2 <= cuenta_tiempo2;
         
      --CONTADOR TIEMPO 3
     contador3_inst: CONTADORTIEMPO
@@ -210,7 +230,6 @@ begin
         enable   =>  enable_cont_tiempo3,       
         count_out => cuenta_tiempo3
         ); 
-      --salida_contador3 <= cuenta_tiempo3;
       
       --CONTADOR TIEMPO 4
     contador4_inst: CONTADORTIEMPO
@@ -220,19 +239,29 @@ begin
         enable   =>  enable_cont_tiempo4,       
         count_out => cuenta_tiempo4
         ); 
-      --salida_contador4 <= cuenta_tiempo4;
         
-      --MAQUINA DE ESTADOS  
+     
+
+    Inst_SYNCHRNZR: SYNCHRNZR PORT MAP (
+        CLK => clk,
+        ASYNC_IN => pushbutton,
+        SYNC_OUT => syn_edg
+    );
+
+    Inst_EDGEDCTR: EDGEDCNTRL PORT MAP (
+        CLK => clk,
+        SYNC_IN => syn_edg,
+        EDGE => edg_fsm
+    );
+    
+     --MAQUINA DE ESTADOS  
      parking_fsm_inst:parking_fsm
         Port map(
-        reset => reset, 
-        plaza_1 => enable_cont_tiempo1, -- 1 si ocupada, 0 si libre
-        plaza_2 => enable_cont_tiempo2, -- 1 si ocupada, 0 si libre
-        plaza_3 => enable_cont_tiempo3, -- 1 si ocupada, 0 si libre
-        plaza_4 => enable_cont_tiempo4, -- 1 si ocupada, 0 si libre
-        salida => select_mux_entero -- Salida binaria indicando la plaza liberada
-        ); 
-        --salida_fsm <= select_mux_entero;
+        RESET => reset,
+        CLK => clk,
+        PUSHBUTTON => edg_fsm,
+        salida => select_mux_entero
+    );
         
       --MULTIPLEXOR ENTEROS 4a1 
     mux_enteros_inst: multiplexor_entero
@@ -244,7 +273,7 @@ begin
         plaza4 => cuenta_tiempo4, -- Salida del contador de la plaza 4
         salida => cuenta_seleccionada -- Salida seleccionada
         );
-        --salida_seleccionada <=cuenta_seleccionada;
+        
 
       -- ENTERO A BCD
     entero_a_bcd_inst: int_to_bcd
@@ -255,10 +284,6 @@ begin
         centenas  => bcd_precio1, -- Contiguo a millares
         millares  => bcd_precio0 --Irá en display de Izquierda del todo
         );
-      --salida_unidades <= bcd_precio3;
-      --salida_decenas  <= bcd_precio2;
-      --salida_centenas <= bcd_precio1;
-      --salida_millares <= bcd_precio0;
       
       --CONTADOR PLAZAS LIBRES
     contador_plazas_libres_inst: contador_plazas_libres
@@ -300,7 +325,25 @@ begin
         Port map(
         clk     => clk,                     -- Reloj para el selector
         reset   => reset,                     -- Reset para el selector
-        display => display_sel  -- Selector display activo con un bit a nivel bajo
+        display => display_sel,  -- Selector display activo con un bit a nivel bajo
+        DP => DP
         );
-
+        
+    
+    
+process (select_mux_entero)
+begin
+    case select_mux_entero is
+        when "00" => 
+            led_contador_seleccionado <= "0001"; -- LED 0 encendido
+        when "01" => 
+            led_contador_seleccionado <= "0010"; -- LED 1 encendido
+        when "10" => 
+            led_contador_seleccionado <= "0100"; -- LED 2 encendido
+        when "11" => 
+            led_contador_seleccionado <= "1000"; -- LED 3 encendido
+        when others => 
+            led_contador_seleccionado <= "0000"; -- Ningún LED encendido (estado por defecto)
+    end case;
+end process;
 end Behavioral;
