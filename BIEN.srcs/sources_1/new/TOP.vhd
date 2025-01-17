@@ -67,7 +67,8 @@ architecture Behavioral of TOP is
         reset : in STD_LOGIC;
         PUSHBUTTON : in std_logic;
         clk     : in STD_LOGIC;
-        salida  : out STD_LOGIC_VECTOR(1 downto 0) -- Salida binaria indicando la plaza liberada
+        salida  : out STD_LOGIC_VECTOR(1 downto 0); -- Salida binaria indicando la plaza liberada
+        led_contador_seleccionado: out std_logic_vector(0 to 3)
         );
     end component;
     
@@ -260,7 +261,8 @@ begin
         RESET => reset,
         CLK => clk,
         PUSHBUTTON => edg_fsm,
-        salida => select_mux_entero
+        salida => select_mux_entero,
+        led_contador_seleccionado => led_contador_seleccionado -- Indicará de qué plaza es el contador estamos mostrando
     );
         
       --MULTIPLEXOR ENTEROS 4a1 
@@ -329,21 +331,4 @@ begin
         DP => DP
         );
         
-    
-    
-process (select_mux_entero)
-begin
-    case select_mux_entero is
-        when "00" => 
-            led_contador_seleccionado <= "0001"; -- LED 0 encendido
-        when "01" => 
-            led_contador_seleccionado <= "0010"; -- LED 1 encendido
-        when "10" => 
-            led_contador_seleccionado <= "0100"; -- LED 2 encendido
-        when "11" => 
-            led_contador_seleccionado <= "1000"; -- LED 3 encendido
-        when others => 
-            led_contador_seleccionado <= "0000"; -- Ningún LED encendido (estado por defecto)
-    end case;
-end process;
 end Behavioral;

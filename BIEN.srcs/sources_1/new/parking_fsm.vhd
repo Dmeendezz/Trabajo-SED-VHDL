@@ -7,7 +7,8 @@ entity parking_fsm is
         reset : in STD_LOGIC;
         PUSHBUTTON : in std_logic;
         clk     : in STD_LOGIC;
-        salida  : out STD_LOGIC_VECTOR(1 downto 0) -- Salida binaria indicando la plaza liberada
+        salida  : out STD_LOGIC_VECTOR(1 downto 0); -- Salida binaria indicando la plaza liberada
+        led_contador_seleccionado: out std_logic_vector(0 to 3)
     );
 end parking_fsm;
 
@@ -69,14 +70,19 @@ salida <= salida_reg;
         case current_state is
             when STATE0 =>
                 salida_reg <= "00"; -- Enciende LED 0
+                led_contador_seleccionado <= "0001";
             when STATE1 =>
                 salida_reg <= "01"; -- Enciende LED 1
+                led_contador_seleccionado <= "0010";
             when STATE2 =>
                 salida_reg <= "10"; -- Enciende LED 2
+                led_contador_seleccionado <= "0100";
             when STATE3 =>
                 salida_reg <= "11"; -- Enciende LED 3
+                led_contador_seleccionado <= "1000";
             when others =>
                 salida_reg <= "00";
+                led_contador_seleccionado <= "0000";
         end case;
     end process;
  
